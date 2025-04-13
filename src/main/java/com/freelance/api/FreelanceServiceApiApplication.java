@@ -1,0 +1,13 @@
+package com.freelance.api;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class FreelanceServiceApiApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(FreelanceServiceApiApplication.class, args);
+	}
+
+}
