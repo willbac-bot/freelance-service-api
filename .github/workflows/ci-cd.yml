@@ -1,0 +1,35 @@
+name: Build & Auto PR to Main
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  build-and-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Setup Java 21 com Temurin
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build com Maven
+        run: mvn clean install --no-transfer-progress
+
+      - name: Criar PR automaticamente para a main
+        if: success()
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'build: auto-pr to main'
+          title: 'Auto PR para main da branch ${{ github.ref_name }}'
+          base: main
+          branch: ${{ github.ref_name }}
+          body: |
+            🤖 Este Pull Request foi criado automaticamente a partir do push na branch **${{ github.ref_name }}**.
