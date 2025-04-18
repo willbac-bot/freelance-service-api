@@ -1,0 +1,59 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build
+        run: mvn clean compile --no-transfer-progress
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Test
+        run: mvn test --no-transfer-progress
+
+  create-pr-develop:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref != 'refs/heads/develop'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create PR to develop
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'build: auto PR to develop'
+          title: 'Auto PR para develop da branch ${{ github.ref_name }}'
+          base: develop
+          branch: ${{ github.ref_name }}
