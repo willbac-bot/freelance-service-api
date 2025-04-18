@@ -1,0 +1,44 @@
+  Pasta                        Responsabilidade
+controller:	Camada de entrada: endpoints REST (@RestController)
+
+service:	Lógica de negócio: validações, regras, chamadas ao repositório, etc.
+
+repository:	Interfaces que estendem JpaRepository ou CrudRepository
+
+entity:	Modelos do banco de dados com @Entity, @Id, @ManyToOne, etc.
+
+dto:	Objetos de transporte de dados (record) separados por request e response
+
+mapper:	Classes do MapStruct para converter entre entidades e DTOs
+
+config:	Configurações específicas do projeto (OpenAI, CORS, beans customizados)
+
+
+
+
+freelance-service-api/
+│
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── freelance/
+│       │           └── service/
+│       │               ├── controller/       # Exposição da API (REST Controllers)
+│       │               ├── service/          # Regras de negócio (Services)
+│       │               ├── repository/       # Interfaces JPA (Repository)
+│       │               ├── entity/           # Entidades JPA
+│       │               ├── dto/              # Records dos DTOs (request/response)
+│       │               ├── mapper/           # Interfaces do MapStruct
+│       │               └── config/           # Configurações (WebClient, OpenAI, CORS, etc)
+│       │
+│       └── resources/
+│           ├── application.properties        # Configuração (db, porta, openai, etc)
+│           └── static/                       # Arquivos estáticos, se algum dia precisar
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml                            # CI/CD com GitHub Actions
+│
+├── pom.xml                                   # Dependências (Spring, MapStruct, etc)
+└── README.md                                 # Documentação do projeto
