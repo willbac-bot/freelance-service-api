@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("v1/users")
 public class UserController {
 
     private final UserService userService;
@@ -20,7 +20,7 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping
+    @GetMapping("/findAll")
     public List<UserDTO> findAll() {
         return userService.findAll()
                 .stream()
@@ -28,7 +28,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public UserDTO create(@RequestBody UserDTO dto) {
         return userMapper.toDto(
                 userService.save(userMapper.toEntity(dto))
