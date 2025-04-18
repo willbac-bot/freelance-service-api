@@ -18,7 +18,7 @@ public class Order {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
     @ManyToOne
     private User cliente;
     @ManyToOne
@@ -27,11 +27,11 @@ public class Order {
     StatusSolicitacao statusSolicitacao;
 
     public UUID getId() {
-        return Id;
+        return id;
     }
 
     public void setId(UUID id) {
-        Id = id;
+        this.id = id;
     }
 
     public User getCliente() {
